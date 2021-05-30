@@ -1,8 +1,23 @@
 const mongoose = require("mongoose")
 
+
+const GeoSchema = new mongoose.Schema({
+  type:{
+    type:String,
+    default:"Point"
+  },
+  coordinates:{
+    type:[Number],
+    index:"2dsphere"
+  }
+})
+
 const UserSchema = new mongoose.Schema({
   name: String, 
-  mobile: String, 
+  mobile: {
+    type:Number,
+    unique:true
+  }, 
   email: String, 
   address: { 
     street: String, 
@@ -10,8 +25,7 @@ const UserSchema = new mongoose.Schema({
     city: String, 
     state: String, 
     pincode: String, 
-    coordinatesType: String, 
-    coordinates: [Number] 
+    geometry:GeoSchema
   }
 })
 

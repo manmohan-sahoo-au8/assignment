@@ -5,6 +5,10 @@ const port = process.env.PORT || 5500
 
 const app = express()
 
+const userRouter = require("./routes/user")
+
+app.use(express.json())
+
 //connect to database
 mongoose.connect(url,{ useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false }).then(()=>{
   console.log("Database connected")
@@ -13,7 +17,6 @@ mongoose.connect(url,{ useNewUrlParser: true, useUnifiedTopology: true, useCreat
 })
 
 //
-const user = require("./routes/user")
 
 
 // health check url
@@ -21,7 +24,7 @@ app.get('/',(req,res)=> {
   res.send("API is running")
 })
 
-app.use("/user",user)
+app.use("/users",userRouter)
 
 //sever listing to the port
 app.listen(port,()=>{
