@@ -24,7 +24,8 @@ router.post("/", async (req, res) => {
     name: req.body.name,
     mobile: req.body.mobile,
     email:req.body.email,
-    address:req.body.address
+    address:req.body.address,
+    geometry:req.body.geometry
   });
   try {
     const newUser = await user.save();
@@ -38,6 +39,18 @@ router.post("/", async (req, res) => {
 router.get("/:id", getUser, (req, res) => {
   res.json(res.user);
 });
+
+//get by long and lat
+
+router.get("/",(req,res) => {
+  User.aggregate(
+    {type:"Point",coordinates:[parseFloat(req.query.lng),parseFloat(req.query.lat)]},
+    {maxDistance:100000,spherical:true}
+  ).then(function(users) {
+    res.send(users)
+  })
+    
+})
 
 //Get All
 router.get("/", async (req, res) => {

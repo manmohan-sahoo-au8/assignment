@@ -24,9 +24,12 @@ const UserSchema = new mongoose.Schema({
     locality: String, 
     city: String, 
     state: String, 
-    pincode: String, 
+    pincode: Number, 
+  },
     geometry:GeoSchema
-  }
-})
+},
+  {
+    timestamps: true
+  })
 
 module.exports = mongoose.model("User",UserSchema)
